@@ -1,8 +1,10 @@
-const Navbar = () => {
+import { Link } from '@inertiajs/react';
+
+const Navbar = ({user}) => {
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost text-xl">Dashboard</a>
+                <a className="btn btn-ghost text-xl">Newsportal</a>
             </div>
             <div className="flex-none gap-2">
                 <div className="form-control">
@@ -29,18 +31,39 @@ const Navbar = () => {
                         tabIndex="0"
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                     >
-                        <li>
-                            <a className="justify-between">
-                                Profile
-                                <span className="badge">New</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>Settings</a>
-                        </li>
-                        <li>
-                            <a>Logout</a>
-                        </li>
+                        {!user ? (
+                            <>
+                                <li>
+                                    <Link href={route("login")}>Login</Link>
+                                </li>
+                                <li>
+                                    <Link href={route("register")}>
+                                        Register
+                                    </Link>
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li>
+                                    <Link
+                                        className="justify-between"
+                                        href={route("dashboard")}
+                                    >
+                                        Dashboard
+                                        <span className="badge">New</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        method="post"
+                                        href={route("logout")}
+                                        as="button"
+                                    >
+                                        Logout
+                                    </Link>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </div>
             </div>

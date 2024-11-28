@@ -16,20 +16,21 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [App\Http\Controllers\NewsController::class, 'index']);
-
-Route::get('/welcome', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [App\Http\Controllers\NewsController::class, 'index'])->name('newsportal');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->controller(App\Http\Controllers\NewsController::class)->group(function(){
+    Route::post('/news', 'create')->name('news.create');
+    Route::get('/news', 'show')->name('news.mynews');
+
+    Route::get('/news/edit', 'edit')->name('news.edit');
+    Route::put('/news/update', 'update')->name('news.update');
+    Route::delete('/news/delete', 'destroy')->name('news.delete');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -7,7 +7,7 @@ export default function Homepage(props) {
     return (
         <>
             <Head title={props.title}></Head>
-            <Navbar />
+            <Navbar user={props.auth.user} />
 
             <div className="pt-4 min-h-screen bg-slate-50">
                 <div className="flex justify-center flex-wrap gap-4">
